@@ -1,4 +1,4 @@
-streamlit
+streamlit==1.40.2
 selenium==4.27.1
 webdriver_manager==4.0.2
-selenumbase
+seleniumbase==1.53.3
