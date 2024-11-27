@@ -9,26 +9,32 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 
-
 def get_driver():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
+        
+        # Chrome 드라이버 초기화
         service = Service(ChromeDriverManager().install())
-        return webdriver.Chrome(service=service, options=chrome_options)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        st.write("Chrome 브라우저 초기화 성공")
+        return driver
     except Exception as e:
-        st.write(f"Chrome initialization failed: {e}")
+        st.write(f"Chrome 초기화 실패: {str(e)}")
         try:
             firefox_options = FirefoxOptions()
             firefox_options.add_argument("--headless")
+            
+            # Firefox 드라이버 초기화
             service = FirefoxService(GeckoDriverManager().install())
-            return webdriver.Firefox(service=service, options=firefox_options)
+            driver = webdriver.Firefox(service=service, options=firefox_options)
+            st.write("Firefox 브라우저 초기화 성공")
+            return driver
         except Exception as e:
-            st.error(f"Firefox initialization failed: {e}")
+            st.error(f"Firefox 초기화 실패: {str(e)}")
             return None
-
 
 url = "https://sports.chosun.com/football/?action=worldfootball"
 
@@ -48,7 +54,8 @@ if st.button("검색 시작"):
                 time.sleep(3)  # 페이지 로딩 대기
                 st.success("크롤링 성공!")
             except Exception as e:
-                st.error(f"크롤링 중 오류 발생: {e}")
+                st.error(f"크롤링 중 오류 발생: {str(e)}")
+                st.error(f"오류 세부사항: {e.__class__.__name__}: {str(e)}")
             finally:
                 driver.quit()
         else:
