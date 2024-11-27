@@ -1,3 +1,4 @@
 streamlit
 selenium==4.27.1
 webdriver-manager==4.0.2
+selenumbase
